@@ -347,9 +347,9 @@ SET(targets)
 # pcre
 __add_real_target(pcre_local lib SOURCE ${PCRE_HEADERS} ${PCRE_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/config.h)
 SET(targets ${targets} pcre_local)
-__add_real_target(pcreposix_local lib SOURCE ${PCREPOSIX_HEADERS} ${PCREPOSIX_SOURCES})
+__add_real_target(pcreposix_local lib SOURCE ${PCREPOSIX_HEADERS} ${PCREPOSIX_SOURCES}
+									  LIB pcre_local)
 SET(targets ${targets} pcreposix_local)
-TARGET_LINK_LIBRARIES(pcreposix_local pcre_local)
 IF(MINGW AND NOT PCRE_STATIC)
   IF(NON_STANDARD_LIB_PREFIX)
     SET_TARGET_PROPERTIES(pcre_local pcreposix_local
@@ -367,22 +367,22 @@ ENDIF(MINGW AND NOT PCRE_STATIC)
 
 # pcrecpp
 IF(PCRE_BUILD_PCRECPP)
-  __add_real_target(pcrecpp_local lib SOURCE ${PCRECPP_HEADERS} ${PCRECPP_SOURCES}
-  									  INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
-SET(targets ${targets} pcrecpp_local)
-  TARGET_LINK_LIBRARIES(pcrecpp_local pcre_local)
-
-  IF(MINGW AND NOT PCRE_STATIC)
-    IF(NON_STANDARD_LIB_PREFIX)
-      SET_TARGET_PROPERTIES(pcrecpp_local
-                            PROPERTIES PREFIX "")
-    ENDIF(NON_STANDARD_LIB_PREFIX)
-
-    IF(NON_STANDARD_LIB_SUFFIX)
-      SET_TARGET_PROPERTIES(pcrecpp_local
-                          PROPERTIES SUFFIX "-0.dll")
-    ENDIF(NON_STANDARD_LIB_SUFFIX)
-  ENDIF(MINGW AND NOT PCRE_STATIC)
+	__add_real_target(pcrecpp_local lib SOURCE ${PCRECPP_HEADERS} ${PCRECPP_SOURCES}
+										LIB pcre_local
+										INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+	SET(targets ${targets} pcrecpp_local)
+	
+	IF(MINGW AND NOT PCRE_STATIC)
+		IF(NON_STANDARD_LIB_PREFIX)
+			SET_TARGET_PROPERTIES(pcrecpp_local
+								PROPERTIES PREFIX "")
+		ENDIF(NON_STANDARD_LIB_PREFIX)
+		
+		IF(NON_STANDARD_LIB_SUFFIX)
+			SET_TARGET_PROPERTIES(pcrecpp_local
+								PROPERTIES SUFFIX "-0.dll")
+		ENDIF(NON_STANDARD_LIB_SUFFIX)
+	ENDIF(MINGW AND NOT PCRE_STATIC)
 ENDIF(PCRE_BUILD_PCRECPP)
 
 SET_TARGET_PROPERTIES(pcrecpp_local PROPERTIES COMPILE_FLAGS "${EXTRA_COMPILE_FLAGS}")
@@ -398,11 +398,11 @@ SET_TARGET_PROPERTIES(pcrecpp_local PROPERTIES COMPILE_FLAGS "${EXTRA_COMPILE_FL
 #         SET_TARGET_PROPERTIES(pcredemo PROPERTIES COMPILE_FLAGS "-DPCRE_STATIC")
 # ENDIF(NOT BUILD_SHARED_LIBS)
 
-IF(PCRE_BUILD_PCREGREP)
-  ADD_EXECUTABLE(pcregrep pcregrep.c)
-  SET(targets ${targets} pcregrep)
-  TARGET_LINK_LIBRARIES(pcregrep pcreposix ${PCREGREP_LIBS})
-ENDIF(PCRE_BUILD_PCREGREP)
+# IF(PCRE_BUILD_PCREGREP)
+#   ADD_EXECUTABLE(pcregrep pcregrep.c)
+#   SET(targets ${targets} pcregrep)
+#   TARGET_LINK_LIBRARIES(pcregrep pcreposix ${PCREGREP_LIBS})
+# ENDIF(PCRE_BUILD_PCREGREP)
 
 #SET(CMAKE_INSTALL_ALWAYS 1)
 #
