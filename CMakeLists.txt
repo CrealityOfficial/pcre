@@ -37,7 +37,15 @@
 #            are set by specifying a release type.
 # 2010-01-02 PH added test for stdint.h
 # 2010-03-02 PH addes test for inttypes.h
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake) # for FindReadline.cmake
+
+include(CheckIncludeFile)
+include(CheckIncludeFileCXX)
+include(CheckLibraryExists)
+include(CheckFunctionExists)
+include(CheckCXXSourceCompiles)
+include(CheckTypeSize)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake) # for FindReadline.cmake
 
 # external packages
 FIND_PACKAGE( BZip2 )
