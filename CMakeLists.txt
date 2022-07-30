@@ -508,6 +508,6 @@ IF(PCRE_SHOW_REPORT)
 ENDIF(PCRE_SHOW_REPORT)
 
 if(CC_INSTALL_PCRE)
-	__install_directory_specif(${CMAKE_CURRENT_SOURCE_DIR} pcre)
+	__install_directory_specif(${CMAKE_CURRENT_SOURCE_DIR}/ pcre)
 endif()
 # end CMakeLists.txt
