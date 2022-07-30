@@ -73,6 +73,7 @@ CHECK_TYPE_SIZE("unsigned long long"    UNSIGNED_LONG_LONG)
 
 SET(BUILD_SHARED_LIBS OFF CACHE BOOL
     "Build shared libraries instead of static ones.")
+set(BUILD_SHARED_LIBS 0)
 
 OPTION(PCRE_BUILD_PCRECPP "Build the PCRE C++ library (pcrecpp)." ON)
 
@@ -498,4 +499,7 @@ IF(PCRE_SHOW_REPORT)
   MESSAGE(STATUS "")
 ENDIF(PCRE_SHOW_REPORT)
 
+if(CC_INSTALL_PCRE)
+	__install_directory_specif(${CMAKE_CURRENT_SOURCE_DIR} pcre)
+endif()
 # end CMakeLists.txt
